@@ -26,6 +26,6 @@ defmodule Sesopenko.ECS.EntityRegistry do
         [input_entity | current_list]
       end)
 
-    {:reply, {:ok}, new_state}
+    {:reply, :ok, new_state}
   end
 end

@@ -19,7 +19,9 @@ defmodule Sesopenko.ECS.EntityRegistryTest do
       input_entity = %{stomache: 100}
       {:ok, registry_pid} = GenServer.start_link(EntityRegistry, %{})
       component_type = "stomache"
-      GenServer.call(registry_pid, {:add_entity_for_component, input_entity, component_type})
+
+      :ok =
+        GenServer.call(registry_pid, {:add_entity_for_component, input_entity, component_type})
 
       # Act
       {:ok, entity_list} =
