@@ -69,6 +69,6 @@ defmodule Sesopenko.ECS.EntityRegistryTest do
     end
   end
 
-  describe "should add entity of specific component type as string" do
+  describe "updating specific entities" do
   end
 end
