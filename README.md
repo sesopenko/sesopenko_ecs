@@ -7,6 +7,9 @@
 * Entities
   * Data structures for the components they posses
 
+
+  
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
