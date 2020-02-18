@@ -2,6 +2,9 @@
 .vscode
 .idea
 
+# ignore .elixir_ls directory
+.elixir_ls
+
 # The directory Mix will write compiled artifacts to.
 /_build/
 

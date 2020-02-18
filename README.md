@@ -1,6 +1,11 @@
 # Sesopenko.ECS
 
-**TODO: Add description**
+* System
+* Components
+  * Pub/Sub the system to listen to events and publish events
+  * ends up making updates to entity state
+* Entities
+  * Data structures for the components they posses
 
 ## Installation
 
@@ -19,3 +24,6 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/sesopenko_ecs](https://hexdocs.pm/sesopenko_ecs).
 
+Sources:
+* [Entity Component System - Wikipedia](https://en.wikipedia.org/wiki/Entity_component_system)
+* [Entity Component Systems in Elixir- Yos Riady](https://yos.io/2016/09/17/entity-component-systems/)
