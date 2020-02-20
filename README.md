@@ -33,6 +33,7 @@ be found at [https://hexdocs.pm/sesopenko_ecs](https://hexdocs.pm/sesopenko_ecs)
 ## Research Sources:
 * [Entity Component System - Wikipedia](https://en.wikipedia.org/wiki/Entity_component_system)
 * [Entity Component Systems in Elixir- Yos Riady](https://yos.io/2016/09/17/entity-component-systems/)
+  * A [diagram of Yos Riady's architecture](documentation/yos_riady_ecs_design.png) is included in this project.
 
 ## LICENSE
 
