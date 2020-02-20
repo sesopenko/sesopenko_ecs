@@ -1,6 +1,7 @@
 defmodule Sesopenko.ECS.ComponentTest do
   use ExUnit.Case
   alias Sesopenko.ECS.Component
+  alias Sesopenko.ECS.Component.State
 
   setup do
     Component.initialize()
@@ -37,8 +38,9 @@ defmodule Sesopenko.ECS.ComponentTest do
     # Assert.
     # map the stream to get an actual list
     component_list =
-      Enum.map(component_stream, fn fruit_component ->
-        fruit_component.state
+      Enum.map(component_stream, fn fruit_component_pid ->
+        component = State.get(fruit_component_pid)
+        component.state
       end)
 
     # should have count of 2
@@ -58,7 +60,39 @@ defmodule Sesopenko.ECS.ComponentTest do
   end
 
   test "get stream of components and ability to update each, in situ" do
-    # apple tree system adding apples
+    # initial game state, defining apple trees
+    empty_fruit_state = %{
+      has_fruit: true
+    }
+
+    full_fruit_state = %{
+      has_fruit: true
+    }
+
+    component_name = :fruit
+
+    # Arrange.
+    # Act.
+
+    Component.add(component_name, empty_fruit_state)
+    Component.add(component_name, full_fruit_state)
+
+    component_stream = Component.get_stream(component_name)
+
+    for current_component_pid <- component_stream do
+      # get current value
+      component = State.get(current_component_pid)
+      ## update with inverted value
+      new_state = Map.put(component.state, :has_fruit, !component.state.has_fruit)
+      State.update(current_component_pid, new_state)
+    end
+
+    new_stream = Component.get_stream(component_name)
+
+    Enum.each(new_stream, fn component_pid ->
+      component = State.get(component_pid)
+      assert component.state.has_fruit == false
+    end)
   end
 
   test "be notified when a specific component state changes" do

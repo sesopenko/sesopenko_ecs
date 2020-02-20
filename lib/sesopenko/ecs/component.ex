@@ -1,5 +1,6 @@
 defmodule Sesopenko.ECS.Component do
   use GenServer
+  alias Sesopenko.ECS.Component.State
 
   @impl true
   def init(initial_state \\ %{}) do
@@ -8,7 +9,11 @@ defmodule Sesopenko.ECS.Component do
 
   @impl true
   def handle_call({:stream_components_by_type, component_type}, _from, current_state) do
-    {:reply, current_state, current_state}
+    if Map.has_key?(current_state, component_type) do
+      {:reply, current_state[component_type], current_state}
+    else
+      {:reply, [], current_state}
+    end
   end
 
   @impl true
@@ -17,11 +22,12 @@ defmodule Sesopenko.ECS.Component do
         _from,
         current_component_map
       ) do
-    new_component = %{
-      state: initial_component_state
-    }
+    {:ok, component_pid} =
+      GenServer.start_link(State, %State{
+        state: initial_component_state
+      })
 
-    blank_slate = [new_component]
+    blank_slate = [component_pid]
 
     new_map =
       Map.update(
@@ -29,7 +35,7 @@ defmodule Sesopenko.ECS.Component do
         component_type,
         blank_slate,
         fn current_list ->
-          [new_component | current_list]
+          [component_pid | current_list]
         end
       )
 
@@ -37,13 +43,7 @@ defmodule Sesopenko.ECS.Component do
   end
 
   def get_stream(component_type) do
-    stream = GenServer.call(__MODULE__, {:stream_components_by_type, component_type})
-
-    if Map.has_key?(stream, component_type) do
-      stream[component_type]
-    else
-      []
-    end
+    GenServer.call(__MODULE__, {:stream_components_by_type, component_type})
   end
 
   # how to store these component states
@@ -53,11 +53,19 @@ defmodule Sesopenko.ECS.Component do
     GenServer.call(__MODULE__, {:add_component, component_atom, initial_state})
   end
 
+  @doc """
+  Initializes a component store.
+
+  Warning:  it is not linked so if the parent process ends it will still live.
+  """
   def initialize() do
     {:ok, pid} = GenServer.start(__MODULE__, %{}, name: __MODULE__)
     pid
   end
 
+  @doc """
+  Deletes the named process
+  """
   def teardown() do
     :ok = GenServer.stop(__MODULE__)
   end
