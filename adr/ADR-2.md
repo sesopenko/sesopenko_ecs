@@ -64,7 +64,7 @@ We will build the following systems:
 
 ## Status
 
-Deprecated by ADR-3.md
+Deprecated by ADR-3.md due to limitations of the architecture design.
 
 ## Consequences
 
