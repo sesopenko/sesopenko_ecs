@@ -64,8 +64,11 @@ We will build the following systems:
 
 ## Status
 
-Accepted
+Deprecated by ADR-3.md
 
 ## Consequences
 
 Describe the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences but all of them affect the team and project in the future.
+
+* Optimal components are updated as a whole. A system which updates only some components wastes time iterating over components which are going to be skipped.
+* architecting the entities first without considering the usage requirements of the systems led to an architecture which wasn't very helpful.
