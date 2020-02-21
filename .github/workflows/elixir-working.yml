@@ -1,11 +1,9 @@
-name: Elixir CI - master
+name: Elixir CI - working branches
 
 on:
   push:
     branches:
-      - master
-    branches-ignore:
-      - 'dev-**'
+      - dev-**
 
 jobs:
   build:
