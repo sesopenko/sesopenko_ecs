@@ -24,8 +24,10 @@ We will build a component pub/sub architecture which lets systems subscribe to c
 
 ## Status
 
-Proposed
+Accepted
 
 ## Consequences
 
 Describe the resulting context, after applying the decision. All consequences should be listed here, not just the "positive" ones. A particular decision may have positive, negative, and neutral consequences but all of them affect the team and project in the future.
+
+* A supervision tree "home" for the ComponentRegistry hasn't received much thought which has resulted in an unsafe implementation of `ComponentRegistry.start()` and `ComponentRegistry.stop()`. The registries could be per game server, could be for the entire running application, etc. Use cases haven't yet been identified.
