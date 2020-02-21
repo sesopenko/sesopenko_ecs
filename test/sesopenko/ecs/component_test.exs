@@ -33,7 +33,7 @@ defmodule Sesopenko.ECS.ComponentTest do
     Component.add(component_name, empty_fruit_state)
     Component.add(component_name, full_fruit_state)
 
-    component_stream = Component.get_stream(component_name)
+    component_stream = Component.get_list(component_name)
 
     # Assert.
     # map the stream to get an actual list
@@ -77,7 +77,7 @@ defmodule Sesopenko.ECS.ComponentTest do
     Component.add(component_name, empty_fruit_state)
     Component.add(component_name, full_fruit_state)
 
-    component_stream = Component.get_stream(component_name)
+    component_stream = Component.get_list(component_name)
 
     for current_component_pid <- component_stream do
       # get current value
@@ -87,7 +87,7 @@ defmodule Sesopenko.ECS.ComponentTest do
       State.update(current_component_pid, new_state)
     end
 
-    new_stream = Component.get_stream(component_name)
+    new_stream = Component.get_list(component_name)
 
     Enum.each(new_stream, fn component_pid ->
       component = State.get(component_pid)
@@ -96,5 +96,11 @@ defmodule Sesopenko.ECS.ComponentTest do
   end
 
   test "be notified when a specific component state changes" do
+    # target_component = :fruit
+    # my_pid = nil
+    # # create a genserver with a pid that listens to the {:new_state, new_state} event
+    # Component.listen_by_type(:fruit, my_pid)
+    # # update two components
+    # # expect two updates in our genserver.
   end
 end
