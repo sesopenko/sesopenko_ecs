@@ -31,9 +31,21 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/sesopenko_ecs](https://hexdocs.pm/sesopenko_ecs).
 
 ## Research Sources:
+* 
 * [Entity Component System - Wikipedia](https://en.wikipedia.org/wiki/Entity_component_system)
 * [Entity Component Systems in Elixir- Yos Riady](https://yos.io/2016/09/17/entity-component-systems/)
   * A [diagram of Yos Riady's architecture](documentation/yos_riady_ecs_design.png) is included in this project.
+
+## Development Environment
+
+If you are planning on contributing, you need to do the following in your dev environment:
+
+* `mix deps.get`
+* `mix deps.compile`
+* Install dialyzer:
+  * On Debian/Ubuntu: `apt-get install erlang-dialyzer`
+  * On Fedora/Centos/Redhat: `yum install erlang-dialyzer`
+* `mix dialyzer` (this will take a long while, the first time)
 
 ## LICENSE
 

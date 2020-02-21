@@ -38,6 +38,8 @@ defmodule Sesopenko.ECS.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
+      {:git_hooks, "~> 0.4.1", only: [:test, :dev], runtime: false},
       {:elixir_uuid, "~> 1.2"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
       # {:dep_from_hexpm, "~> 0.3.0"},
