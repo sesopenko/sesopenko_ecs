@@ -7,7 +7,11 @@ defmodule Sesopenko.ECS.MixProject do
       version: "0.1.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      package: package(),
+      description: description(),
+      name: "sesopenko ECS",
+      source_url: "https://github.com/sesopenko/sesopenko_ecs"
     ]
   end
 
@@ -15,6 +19,19 @@ defmodule Sesopenko.ECS.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp description do
+    "This is an implementation of the Entity Component System software structural architecture, aimed towards game server development in Elixir."
+  end
+
+  defp package do
+    [
+      name: "sesopenko_ecs",
+      files: ~w(lib .formatter.exs mix.exs README*  LICENSE*),
+      licenses: ["GNU-GPLv3.0"],
+      links: %{"GitHub" => "https://github.com/sesopenko/sesopenko_ecs"}
     ]
   end
 
