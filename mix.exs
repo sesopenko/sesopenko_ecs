@@ -11,7 +11,15 @@ defmodule Sesopenko.ECS.MixProject do
       package: package(),
       description: description(),
       name: "sesopenko ECS",
-      source_url: "https://github.com/sesopenko/sesopenko_ecs"
+      source_url: "https://github.com/sesopenko/sesopenko_ecs",
+      docs: [
+        main: "readme",
+        language: "en",
+        extras: [
+          "README.md": [filename: "readme", title: "Readme"],
+          "LICENSE.md": [filename: "license", title: "License"]
+        ]
+      ]
     ]
   end
 
