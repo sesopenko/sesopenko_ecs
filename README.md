@@ -1,5 +1,7 @@
 # Sesopenko.ECS
 
+![](https://github.com/sesopenko/sesopenko_ecs/workflows/Elixir%20CI%20-%20master/badge.svg)
+
 This is an implementation of the Entity Component System software structural architecture, aimed towards game server development.
 
 From [Wikipedia, Entity component systsem](https://en.wikipedia.org/wiki/Entity_component_system):
