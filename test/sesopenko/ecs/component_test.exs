@@ -1,13 +1,13 @@
-defmodule Sesopenko.ECS.ComponentTest do
+defmodule Sesopenko.ECS.ComponentRegistryTest do
   use ExUnit.Case
-  alias Sesopenko.ECS.Component
+  alias Sesopenko.ECS.ComponentRegistry
   alias Sesopenko.ECS.Component.State
 
   setup do
-    Component.initialize()
+    ComponentRegistry.start()
 
     on_exit(fn ->
-      Component.teardown()
+      ComponentRegistry.stop()
     end)
 
     :ok
@@ -30,10 +30,10 @@ defmodule Sesopenko.ECS.ComponentTest do
     # Arrange.
     # Act.
 
-    Component.add(component_name, empty_fruit_state)
-    Component.add(component_name, full_fruit_state)
+    ComponentRegistry.add(component_name, empty_fruit_state)
+    ComponentRegistry.add(component_name, full_fruit_state)
 
-    component_stream = Component.get_list(component_name)
+    component_stream = ComponentRegistry.get_list(component_name)
 
     # Assert.
     # map the stream to get an actual list
@@ -74,10 +74,10 @@ defmodule Sesopenko.ECS.ComponentTest do
     # Arrange.
     # Act.
 
-    Component.add(component_name, empty_fruit_state)
-    Component.add(component_name, full_fruit_state)
+    ComponentRegistry.add(component_name, empty_fruit_state)
+    ComponentRegistry.add(component_name, full_fruit_state)
 
-    component_stream = Component.get_list(component_name)
+    component_stream = ComponentRegistry.get_list(component_name)
 
     for current_component_pid <- component_stream do
       # get current value
@@ -87,7 +87,7 @@ defmodule Sesopenko.ECS.ComponentTest do
       State.update(current_component_pid, new_state)
     end
 
-    new_stream = Component.get_list(component_name)
+    new_stream = ComponentRegistry.get_list(component_name)
 
     Enum.each(new_stream, fn component_pid ->
       component = State.get(component_pid)
@@ -96,11 +96,47 @@ defmodule Sesopenko.ECS.ComponentTest do
   end
 
   test "be notified when a specific component state changes" do
-    # target_component = :fruit
-    # my_pid = nil
-    # # create a genserver with a pid that listens to the {:new_state, new_state} event
-    # Component.listen_by_type(:fruit, my_pid)
-    # # update two components
-    # # expect two updates in our genserver.
+    target_component = :fruit
+    {:ok, agent} = Agent.start_link(fn -> [] end)
+
+    handle_forever = fn ->
+      receive do
+        {:state_changed, :fruit, new_state} ->
+          Agent.update(agent, fn current_list ->
+            [new_state | current_list]
+          end)
+      after
+        1_000 -> :fail
+      end
+
+      receive do
+        {:state_changed, :fruit, new_state} ->
+          Agent.update(agent, fn current_list ->
+            [new_state | current_list]
+          end)
+      after
+        1_000 -> :fail
+      end
+    end
+
+    my_pid = spawn_link(handle_forever)
+    empty_tree = %{has_fruit: false}
+    full_tree = %{has_fruit: true}
+
+    # ComponentRegistry.listen_by_type(:fruit, my_pid)
+    :ok = ComponentRegistry.subscribe_by_component(target_component, my_pid)
+    ComponentRegistry.add(target_component, empty_tree)
+
+    ComponentRegistry.add(target_component, full_tree)
+    # get state from the agent
+
+    assert true ==
+             Agent.get(agent, fn agent_state ->
+               # expect two updates in our genserver.
+               assert length(agent_state) == 2
+               assert agent_state == [full_tree, empty_tree]
+             end)
+
+    Process.exit(my_pid, :kill)
   end
 end
