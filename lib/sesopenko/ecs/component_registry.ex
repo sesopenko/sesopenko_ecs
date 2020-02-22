@@ -33,9 +33,12 @@ defmodule Sesopenko.ECS.ComponentRegistry do
   @doc """
   Adds a new component for a given component type
   """
-  @spec add(type :: atom(), type :: map()) :: nil
+  @spec add(type :: atom(), type :: map()) :: type :: {:ok, type :: pid()}
   def add(component_type, initial_state) when is_atom(component_type) do
-    GenServer.call(__MODULE__, {:add_component, component_type, initial_state})
+    {:ok, component_pid} =
+      GenServer.call(__MODULE__, {:add_component, component_type, initial_state})
+
+    {:ok, component_pid}
   end
 
   @impl true
@@ -108,7 +111,7 @@ defmodule Sesopenko.ECS.ComponentRegistry do
 
     component_pid = State.spawn_link(initial_component_state, component_type, sub_list)
 
-    {:reply, :ok,
+    {:reply, {:ok, component_pid},
      Map.update(
        current_registry,
        :type_state_map,
