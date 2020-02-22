@@ -1,4 +1,4 @@
-name: Elixir CI - master
+name: mix test
 
 on:
   push:
@@ -25,7 +25,5 @@ jobs:
           ${{ runner.os }}-mix-
     - name: Install Dependencies
       run: mix deps.get
-    - name: Check Formatting
-      run: mix format --check-formatted
     - name: Run Tests
       run: mix test
