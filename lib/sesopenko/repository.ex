@@ -2,12 +2,6 @@ defmodule Sesopenko.ECS.Repository do
   alias Sesopenko.ECS.Repository
   use GenServer
 
-  defmacro fresh_list(input_list) do
-    quote do
-      [unquote(input_list)]
-    end
-  end
-
   defstruct data_entity_components: %{},
             index_component_entities: %{},
             index_entity_components: %{}
@@ -39,12 +33,11 @@ defmodule Sesopenko.ECS.Repository do
         :index_component_entities,
         build_first_index_component_entities(entity_id, component_types),
         fn current_index ->
-          new_index =
-            Enum.reduce(component_types, current_index, fn component_type, acc ->
-              Map.update(acc, component_type, [entity_id], fn entity_list ->
-                [entity_id | entity_list]
-              end)
+          Enum.reduce(component_types, current_index, fn component_type, acc ->
+            Map.update(acc, component_type, [entity_id], fn entity_list ->
+              [entity_id | entity_list]
             end)
+          end)
         end
       )
       |> Map.update(
@@ -79,6 +72,28 @@ defmodule Sesopenko.ECS.Repository do
       end)
 
     {:reply, {:ok, entity_state}, repo_state}
+  end
+
+  def handle_call(
+        {:list_data_for_component_type, component_type},
+        _from,
+        %Repository{} = repo_state
+      ) do
+    entities_by_component = repo_state.index_component_entities
+
+    if !Map.has_key?(entities_by_component, component_type) do
+      {:reply, {:ok, []}, repo_state}
+    else
+      entity_ids = entities_by_component[component_type]
+
+      result =
+        Enum.map(entity_ids, fn entity_id ->
+          data_key = {entity_id, component_type}
+          repo_state.data_entity_components[data_key]
+        end)
+
+      {:reply, {:ok, result}, repo_state}
+    end
   end
 
   defp add_entity_to_index_entity_components(
@@ -118,5 +133,10 @@ defmodule Sesopenko.ECS.Repository do
       key = {entity_id, component_type}
       {key, component_data}
     end)
+  end
+
+  def start_link() do
+    {:ok, repo_pid} = GenServer.start_link(Repository, nil)
+    {:ok, repo_pid}
   end
 end
