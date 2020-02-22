@@ -35,10 +35,6 @@ Great question! First off, feedback and suggested ideas would be great and you m
 
 If you already have code to contribute you may submit a pull request for the repo. We'll discuss & collaborate on the changes before they're merged.
 
-## Architecture Decision Record
-
-This project maintains an Architecture Decision Record, located in the [adr/](adr/) path. The first record, which explains the process, is [adr/ADR-1.md](adr/ADR-1.md). Project vision is documented here. Please read the ADR if you plan on contributing.
-
 ## Research Sources:
 * [Entity Systems are the future of MMOG development - Part 1 - Adam Martin](http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/)
 * [Entity Systems Wiki](http://entity-systems.wikidot.com/)
