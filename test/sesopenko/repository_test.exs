@@ -202,8 +202,7 @@ defmodule Sesopenko.ECS.RepositoryTest do
         end
 
         # Act.
-        {:ok, data} =
-          GenServer.call(repo_pid, {:list_data_for_component_type, input_component_type})
+        {:ok, data} = Repository.list_data_for_component_type(repo_pid, input_component_type)
 
         # Assert.
         assert length(data) == expected_length

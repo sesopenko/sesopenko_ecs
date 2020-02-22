@@ -7,22 +7,10 @@ This is an implementation of the Entity Component System software structural arc
 From [Wikipedia, Entity component systsem](https://en.wikipedia.org/wiki/Entity_component_system):
 > Entity–component–system (ECS) is an architectural pattern that is mostly used in game development. ECS follows the composition over inheritance principle that allows greater flexibility in defining entities where every object in a game's scene is an entity (e.g. enemies, bullets, vehicles, etc.). Every entity consists of one or more components which add behavior or functionality. Therefore, the behavior of an entity can be changed at runtime by adding or removing components. This eliminates the ambiguity problems of deep and wide inheritance hierarchies that are difficult to understand, maintain and extend. Common ECS approaches are highly compatible and often combined with data-oriented design techniques.
 
-## Current Features:
-
-### Pub/Sub Component State
-
-Systems can subscribe to state changes for a given component type so that a given system doesn't have to periodically scan through components to find changes. The pattern is suitable for elixir because it's so easy to spin up decoupled processes and fire off events.
-
-See [component_registry_test.exs](https://github.com/sesopenko/sesopenko_ecs/blob/master/test/sesopenko/ecs/component_registry_test.exs) `"be notified when a specific component state changes"` scenario for usage examples.
-
-### Additonal Functionality
-
-See See [component_registry_test.exs](https://github.com/sesopenko/sesopenko_ecs/blob/master/test/sesopenko/ecs/component_registry_test.exs) for more example features, including walking components' state and updating components.
 
 ### Planned Features
 
-* Entities
-* Quality of life library for building Systems
+* Pub/Sub component data changes.
 * Example project
 
 ## How can I help?
