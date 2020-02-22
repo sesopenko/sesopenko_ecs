@@ -1,6 +1,21 @@
 defmodule Sesopenko.ECS.Repository do
+  @moduledoc """
+  Provides data operations for entities and their components.
+
+  Instantiation:
+  ```elixir
+  {:ok, pid} = Sesopenko.ECS.Repository.start_link()
+  ```
+
+  """
   alias Sesopenko.ECS.Repository
   use GenServer
+
+  @type uuid :: charlist()
+  @type entity_id :: uuid()
+
+  @type component_type :: atom()
+  @type component_data_set :: %{component_type => %{atom() => any}}
 
   defstruct data_entity_components: %{},
             index_component_entities: %{},
@@ -12,11 +27,10 @@ defmodule Sesopenko.ECS.Repository do
   end
 
   @doc """
-  Gets an entity.
+  Adds an entity.
 
   Example usage:
   ```elixir
-  pid = Sesopenko.ECS.Repository.start_link()
   {:ok, entity_id} = Sesopenko.ECS.Repository.add_entity(pid, %{
     first_component_type: %{
       data: 1,
@@ -29,10 +43,25 @@ defmodule Sesopenko.ECS.Repository do
   })
   ```
   """
-  @spec add_entity(pid, map()) :: type :: {:ok, charlist()}
+  @spec add_entity(pid, component_data_set) :: type :: {:ok, entity_id}
   def add_entity(pid, component_map) do
     {:ok, entity_id} = GenServer.call(pid, {:add_entity, component_map})
     {:ok, entity_id}
+  end
+
+  @doc """
+  Fetches an entity by entity id.
+
+  Example usage:
+  ```elixir
+  entity_id = "7533af4e-5531-11ea-9263-000c292c6160"
+  {:ok, entity_component_data} = Sesopenko.ECS.Repository.fetch_entity(pid, entity_id)
+  ```
+  """
+  @spec fetch_entity(pid(), entity_id) :: {:ok, component_data_set}
+  def fetch_entity(pid, entity_id) do
+    {:ok, data} = GenServer.call(pid, {:fetch_entity, entity_id})
+    {:ok, data}
   end
 
   @doc false
@@ -101,6 +130,7 @@ defmodule Sesopenko.ECS.Repository do
     {:reply, {:ok, entity_state}, repo_state}
   end
 
+  @doc false
   def handle_call(
         {:list_data_for_component_type, component_type},
         _from,

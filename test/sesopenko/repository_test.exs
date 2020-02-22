@@ -110,7 +110,7 @@ defmodule Sesopenko.ECS.RepositoryTest do
         entity_id = List.last(inserted)
 
         # Act.
-        {:ok, entity_data} = GenServer.call(repo_pid, {:fetch_entity, entity_id})
+        {:ok, entity_data} = Repository.fetch_entity(repo_pid, entity_id)
 
         # Assert.
 
