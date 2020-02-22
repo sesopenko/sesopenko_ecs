@@ -103,7 +103,7 @@ defmodule Sesopenko.ECS.RepositoryTest do
 
         inserted =
           Enum.map(context.input_entities, fn input_entity_data ->
-            {:ok, entity_id} = GenServer.call(repo_pid, {:add_entity, input_entity_data})
+            {:ok, entity_id} = Repository.add_entity(repo_pid, input_entity_data)
             entity_id
           end)
 
@@ -198,7 +198,7 @@ defmodule Sesopenko.ECS.RepositoryTest do
         {:ok, repo_pid} = Repository.start_link()
 
         for input_singular <- input_entity_data do
-          {:ok, _} = GenServer.call(repo_pid, {:add_entity, input_singular})
+          {:ok, _} = Repository.add_entity(repo_pid, input_singular)
         end
 
         # Act.

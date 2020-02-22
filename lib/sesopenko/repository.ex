@@ -6,10 +6,36 @@ defmodule Sesopenko.ECS.Repository do
             index_component_entities: %{},
             index_entity_components: %{}
 
+  @doc false
   def init(_) do
     {:ok, %Repository{}}
   end
 
+  @doc """
+  Gets an entity.
+
+  Example usage:
+  ```elixir
+  pid = Sesopenko.ECS.Repository.start_link()
+  {:ok, entity_id} = Sesopenko.ECS.Repository.add_entity(pid, %{
+    first_component_type: %{
+      data: 1,
+      other: 2,
+    },
+    second_component_type: %{
+      something: "foo",
+      other_think: [1, 2, 3]
+    }
+  })
+  ```
+  """
+  @spec add_entity(pid, map()) :: type :: {:ok, charlist()}
+  def add_entity(pid, component_map) do
+    {:ok, entity_id} = GenServer.call(pid, {:add_entity, component_map})
+    {:ok, entity_id}
+  end
+
+  @doc false
   def handle_call({:add_entity, component_map}, _from, %Repository{} = starting_state) do
     entity_id = UUID.uuid1()
 
@@ -55,6 +81,7 @@ defmodule Sesopenko.ECS.Repository do
     {:reply, {:ok, entity_id}, updated_state}
   end
 
+  @doc false
   def handle_call({:fetch_entity, entity_id}, _from, repo_state) do
     # get the components for the given entity
     # build map from all component data
