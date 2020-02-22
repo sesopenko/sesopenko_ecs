@@ -22,7 +22,7 @@ end
 
 ## Documentation
 
-Documentation is published on [HexDocs](https://hexdocs.pm/sesopenko_ecs/0.1.1/).  It can also be generated locally with `hex docs` then opening `docs/index.html` with a browser.
+Documentation is published on [HexDocs](https://hexdocs.pm/sesopenko_ecs/).  It can also be generated locally with `hex docs` then opening `docs/index.html` with a browser.
 
 ### Planned Features
 
