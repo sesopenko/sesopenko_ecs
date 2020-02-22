@@ -7,6 +7,21 @@ This is an implementation of the Entity Component System software structural arc
 From [Wikipedia, Entity component systsem](https://en.wikipedia.org/wiki/Entity_component_system):
 > Entity–component–system (ECS) is an architectural pattern that is mostly used in game development. ECS follows the composition over inheritance principle that allows greater flexibility in defining entities where every object in a game's scene is an entity (e.g. enemies, bullets, vehicles, etc.). Every entity consists of one or more components which add behavior or functionality. Therefore, the behavior of an entity can be changed at runtime by adding or removing components. This eliminates the ambiguity problems of deep and wide inheritance hierarchies that are difficult to understand, maintain and extend. Common ECS approaches are highly compatible and often combined with data-oriented design techniques.
 
+## Installation
+
+This is alpha software and will be changing rapidly. The package is [available in Hex](https://hex.pm/packages/sesopenko_ecs), and can be installed by adding `sesopenko_ecs` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:sesopenko_ecs, "~> 0.1.0"}
+  ]
+end
+```
+
+## Documentation
+
+Documentation is published on [HexDocs](https://hexdocs.pm/sesopenko_ecs/0.1.1/).  It can also be generated locally with `hex docs` then opening `docs/index.html` with a browser.
 
 ### Planned Features
 
@@ -22,20 +37,6 @@ If you already have code to contribute you may submit a pull request for the rep
 ## Architecture Decision Record
 
 This project maintains an Architecture Decision Record, located in the [adr/](adr/) path. The first record, which explains the process, is [adr/ADR-1.md](adr/ADR-1.md). Project vision is documented here. Please read the ADR if you plan on contributing.
-
-## Installation
-
-This is alpha software and will be changing rapidly. The package is [available in Hex](https://hex.pm/packages/sesopenko_ecs), and can be installed by adding `sesopenko_ecs` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:sesopenko_ecs, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation is published on [HexDocs](https://hexdocs.pm/sesopenko_ecs/0.1.1/).
 
 ## Research Sources:
 * [Entity Systems are the future of MMOG development - Part 1 - Adam Martin](http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1/)
