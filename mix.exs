@@ -4,7 +4,7 @@ defmodule Sesopenko.ECS.MixProject do
   def project do
     [
       app: :sesopenko_ecs,
-      version: "1.0.0",
+      version: "1.0.1",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
