@@ -50,7 +50,7 @@ defmodule Sesopenko.ECS.Repository do
   pid = Sesopenko.ECS.Repository.start_link()
   ```
   """
-  @spec start_link() :: pid
+  @spec start_link() :: {:ok, pid}
   def start_link() do
     {:ok, repo_pid} = GenServer.start_link(Repository, nil)
     {:ok, repo_pid}
